@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-test
+  namespace: odoo-stg
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron-test
+            image: edwinrea/gcloud
+            env:
+            - name: BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  key: BUCKET
+                  name: odoo-education-config-staging
+            - name: BUCKET_PATH
+              valueFrom:
+                configMapKeyRef:
+                  key: BUCKET_PATH
+                  name: odoo-education-config-staging
+            - name: ODOO_MASTER_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: ODOO_MASTER_USER
+                  name: odoo-education-config-staging
+            - name: ODOO_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: ODOO_URL
+                  name: odoo-education-config-staging
+            - name: ODOO_MASTER_PWD
+              valueFrom:
+                secretKeyRef:
+                  key: ODOO_MASTER_PWD
+                  name: odoo-education-secret
+            - name: GCLOUD_SA_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: GCLOUD_SA_KEY
+                  name: gcloud-sa-secret
+          restartPolicy: OnFailure

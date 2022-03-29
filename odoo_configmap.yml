@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: odoo-siged
+    env: staging
+  name: odoo-education-config-staging
+  namespace: odoo-stg
+data:
+  DB_PORT: "5432"
+  PORT: "5432"
+  HOST: 10.228.0.3
+  USER: odoo_siged
+  BUCKET: siged-odoo-bkp
+  BUCKET_PATH: "staging/"
+  ODOO_MASTER_USER: odoo_siged
+  ODOO_URL: "https://stg.trivium.ai/web/database/backup"
